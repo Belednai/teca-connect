@@ -4,7 +4,7 @@ export interface User {
   id: string;
   name: string;
   email: string;
-  role: 'SUPER_ADMIN' | 'EDITOR' | 'FINANCE';
+  role: 'SUPER_ADMIN' | 'EDITOR' | 'FINANCE' | 'COMMITTEE';
 }
 
 interface AuthContextType {
@@ -46,13 +46,23 @@ const mockUsers: Record<string, { password: string; user: User }> = {
       email: 'finance@teca.org',
       role: 'FINANCE'
     }
+  },
+  'committee@teca.org': {
+    password: 'committee123',
+    user: {
+      id: '4',
+      name: 'Committee Member',
+      email: 'committee@teca.org',
+      role: 'COMMITTEE'
+    }
   }
 };
 
 const rolePermissions: Record<string, string[]> = {
   SUPER_ADMIN: ['*'], // All permissions
   EDITOR: ['read', 'write:news', 'write:events', 'write:leadership', 'write:activities', 'write:media', 'write:pages'],
-  FINANCE: ['read', 'write:donations', 'write:pledges', 'read:audit']
+  FINANCE: ['read', 'write:donations', 'write:pledges', 'read:audit'],
+  COMMITTEE: ['read', 'write:donations', 'write:pledges', 'read:audit']
 };
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {

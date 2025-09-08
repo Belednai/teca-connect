@@ -142,7 +142,7 @@ const AdminLogin = () => {
               <div className="text-xs space-y-1 text-muted-foreground">
                 <div><strong>Admin:</strong> admin@teca.org / admin123</div>
                 <div><strong>Editor:</strong> editor@teca.org / editor123</div>
-                <div><strong>Finance:</strong> finance@teca.org / finance123</div>
+                <div><strong>Committee:</strong> committee@teca.org / committee123</div>
               </div>
             </div>
           </CardContent>
