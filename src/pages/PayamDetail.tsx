@@ -4,8 +4,19 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { Link, useParams } from "react-router-dom";
-import { ArrowLeft, MapPin, Users, Target, Calendar, DollarSign, Activity, Handshake } from "lucide-react";
-import { payams, activities, donations } from "@/lib/data";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { 
+  faArrowLeft, 
+  faMapMarkerAlt, 
+  faUsers, 
+  faBullseye, 
+  faCalendarAlt, 
+  faDollarSign, 
+  faListCheck, 
+  faHandshake,
+  faChartLine
+} from "@fortawesome/free-solid-svg-icons";
+import { payams, getPayamActivities, getPayamLeadership, donations, media, getMediaByPayam } from "@/lib/data";
 
 const PayamDetail = () => {
   const { slug } = useParams();
@@ -26,7 +37,7 @@ const PayamDetail = () => {
                 </p>
                 <Button asChild>
                   <Link to="/resettlement/payams">
-                    <ArrowLeft className="mr-2 h-4 w-4" />
+                    <FontAwesomeIcon icon={faArrowLeft} className="mr-2 h-4 w-4" />
                     Back to Payams
                   </Link>
                 </Button>
@@ -39,8 +50,10 @@ const PayamDetail = () => {
   }
 
   const progress = Math.round((payam.raisedAmount / payam.requestedAmount) * 100);
-  const payamActivities = activities.filter(activity => activity.payamId === payam.id);
+  const payamActivities = getPayamActivities(payam.id);
+  const payamLeadership = getPayamLeadership(payam.id);
   const payamDonations = donations.filter(donation => donation.payamId === payam.id && donation.verified);
+  const payamMedia = getMediaByPayam(payam.id);
 
   const getActivityStatusColor = (status: string) => {
     switch (status) {
@@ -67,7 +80,7 @@ const PayamDetail = () => {
           <div className="max-w-6xl mx-auto mb-8">
             <Button variant="ghost" asChild>
               <Link to="/resettlement/payams">
-                <ArrowLeft className="mr-2 h-4 w-4" />
+                <FontAwesomeIcon icon={faArrowLeft} className="mr-2 h-4 w-4" />
                 Back to All Payams
               </Link>
             </Button>
@@ -78,7 +91,7 @@ const PayamDetail = () => {
             <Card className="shadow-card bg-gradient-primary text-white">
               <CardContent className="pt-8">
                 <div className="flex items-center mb-6">
-                  <MapPin className="h-8 w-8 mr-4" />
+                  <FontAwesomeIcon icon={faMapMarkerAlt} className="h-8 w-8 mr-4" />
                   <div>
                     <h1 className="text-4xl font-serif font-bold mb-2">
                       {payam.name} Payam
@@ -122,7 +135,7 @@ const PayamDetail = () => {
               <Card className="shadow-card">
                 <CardHeader>
                   <CardTitle className="font-serif text-2xl text-primary flex items-center">
-                    <Target className="h-6 w-6 mr-3" />
+                    <FontAwesomeIcon icon={faBullseye} className="h-6 w-6 mr-3" />
                     Funding Progress
                   </CardTitle>
                 </CardHeader>
@@ -140,7 +153,7 @@ const PayamDetail = () => {
                     <div className="text-center">
                       <Button size="lg" asChild className="mt-4">
                         <Link to="/fundraising">
-                          <DollarSign className="mr-2 h-5 w-5" />
+                          <FontAwesomeIcon icon={faDollarSign} className="mr-2 h-5 w-5" />
                           Support {payam.name}
                         </Link>
                       </Button>
@@ -153,7 +166,7 @@ const PayamDetail = () => {
               <Card className="shadow-card">
                 <CardHeader>
                   <CardTitle className="font-serif text-2xl text-primary flex items-center">
-                    <Activity className="h-6 w-6 mr-3" />
+                    <FontAwesomeIcon icon={faListCheck} className="h-6 w-6 mr-3" />
                     Development Activities
                   </CardTitle>
                   <CardDescription>
@@ -190,18 +203,18 @@ const PayamDetail = () => {
                           <CardContent>
                             <div className="grid md:grid-cols-2 gap-4 text-sm text-muted-foreground">
                               <div className="flex items-center">
-                                <Calendar className="h-4 w-4 mr-2" />
+                                <FontAwesomeIcon icon={faCalendarAlt} className="h-4 w-4 mr-2" />
                                 Start: {formatDate(activity.startDate)}
                               </div>
                               {activity.endDate && (
                                 <div className="flex items-center">
-                                  <Calendar className="h-4 w-4 mr-2" />
+                                  <FontAwesomeIcon icon={faCalendarAlt} className="h-4 w-4 mr-2" />
                                   End: {formatDate(activity.endDate)}
                                 </div>
                               )}
                               {activity.budget && (
                                 <div className="flex items-center">
-                                  <DollarSign className="h-4 w-4 mr-2" />
+                                  <FontAwesomeIcon icon={faDollarSign} className="h-4 w-4 mr-2" />
                                   Budget: ${activity.budget.toLocaleString()}
                                 </div>
                               )}
@@ -214,11 +227,44 @@ const PayamDetail = () => {
                 </CardContent>
               </Card>
 
+              {/* Leadership */}
+              {payamLeadership.length > 0 && (
+                <Card className="shadow-card">
+                  <CardHeader>
+                    <CardTitle className="font-serif text-2xl text-primary flex items-center">
+                      <FontAwesomeIcon icon={faUsers} className="h-6 w-6 mr-3" />
+                      Payam Leadership
+                    </CardTitle>
+                    <CardDescription>
+                      Local coordinators leading resettlement efforts in {payam.name}
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="grid md:grid-cols-2 gap-4">
+                      {payamLeadership.map((leader) => (
+                        <Card key={leader.id} className="border">
+                          <CardContent className="pt-4">
+                            <div className="text-center">
+                              <div className="h-16 w-16 rounded-full bg-gradient-primary flex items-center justify-center text-white font-bold text-xl mx-auto mb-3">
+                                {leader.name.charAt(0)}
+                              </div>
+                              <h3 className="font-semibold text-lg mb-1">{leader.name}</h3>
+                              <p className="text-sm text-primary font-medium mb-2">{leader.title}</p>
+                              <p className="text-sm text-muted-foreground">{leader.bio}</p>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              )}
+
               {/* Recent Donations */}
               <Card className="shadow-card">
                 <CardHeader>
                   <CardTitle className="font-serif text-2xl text-primary flex items-center">
-                    <Handshake className="h-6 w-6 mr-3" />
+                    <FontAwesomeIcon icon={faHandshake} className="h-6 w-6 mr-3" />
                     Recent Support
                   </CardTitle>
                   <CardDescription>
@@ -256,6 +302,62 @@ const PayamDetail = () => {
                   )}
                 </CardContent>
               </Card>
+
+              {/* Media Gallery */}
+              {payamMedia.length > 0 && (
+                <Card className="shadow-card">
+                  <CardHeader>
+                    <CardTitle className="font-serif text-2xl text-primary flex items-center">
+                      <FontAwesomeIcon icon={faChartLine} className="h-6 w-6 mr-3" />
+                      Project Media
+                    </CardTitle>
+                    <CardDescription>
+                      Photos and documents from {payam.name} development projects
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="grid md:grid-cols-2 gap-4">
+                      {payamMedia.slice(0, 4).map((mediaItem) => (
+                        <Card key={mediaItem.id} className="border hover:shadow-md transition-smooth">
+                          <CardContent className="p-4">
+                            <div className="flex items-start space-x-3">
+                              <div className="h-12 w-12 rounded bg-primary/10 flex items-center justify-center flex-shrink-0">
+                                {mediaItem.type === 'image' && '📷'}
+                                {mediaItem.type === 'video' && '🎥'}
+                                {mediaItem.type === 'document' && '📄'}
+                              </div>
+                              <div className="flex-1 min-w-0">
+                                <h4 className="font-medium text-sm mb-1 line-clamp-2">
+                                  {mediaItem.title}
+                                </h4>
+                                <p className="text-xs text-muted-foreground mb-2 line-clamp-2">
+                                  {mediaItem.description}
+                                </p>
+                                <div className="flex flex-wrap gap-1">
+                                  {mediaItem.tags.slice(0, 2).map((tag) => (
+                                    <Badge key={tag} variant="secondary" className="text-xs">
+                                      {tag}
+                                    </Badge>
+                                  ))}
+                                </div>
+                              </div>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      ))}
+                    </div>
+                    {payamMedia.length > 4 && (
+                      <div className="text-center mt-4">
+                        <Button variant="outline" asChild>
+                          <Link to="/media">
+                            View All Media
+                          </Link>
+                        </Button>
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+              )}
             </div>
 
             {/* Sidebar */}
@@ -301,13 +403,13 @@ const PayamDetail = () => {
                 <CardContent className="space-y-3">
                   <Button asChild className="w-full">
                     <Link to="/fundraising">
-                      <DollarSign className="mr-2 h-4 w-4" />
+                      <FontAwesomeIcon icon={faDollarSign} className="mr-2 h-4 w-4" />
                       Make a Donation
                     </Link>
                   </Button>
                   <Button variant="outline" asChild className="w-full">
                     <Link to="/volunteer">
-                      <Users className="mr-2 h-4 w-4" />
+                      <FontAwesomeIcon icon={faUsers} className="mr-2 h-4 w-4" />
                       Volunteer
                     </Link>
                   </Button>

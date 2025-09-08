@@ -1,25 +1,36 @@
-import Layout from "@/components/Layout";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faDonate } from "@fortawesome/free-solid-svg-icons";
 
-const Donations = () => (
-  <Layout title="Admin - Donations" description="Manage donations">
-    <div className="py-16">
-      <div className="container mx-auto px-4">
-        <Card className="shadow-card max-w-4xl mx-auto">
-          <CardHeader>
-            <CardTitle className="font-serif text-3xl text-primary text-center">
-              Admin - Donations Management
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-center text-muted-foreground">
-              Donations management coming soon.
-            </p>
-          </CardContent>
-        </Card>
+const AdminDonations = () => {
+  return (
+    <div className="space-y-6">
+      {/* Header */}
+      <div>
+        <h1 className="text-3xl font-serif font-bold text-foreground">Donations Management</h1>
+        <p className="text-muted-foreground">Track and manage all donations received</p>
       </div>
-    </div>
-  </Layout>
-);
 
-export default Donations;
+      {/* Coming Soon Card */}
+      <Card className="shadow-card">
+        <CardHeader>
+          <CardTitle className="font-serif text-xl flex items-center">
+            <FontAwesomeIcon icon={faDonate} className="h-5 w-5 mr-3" />
+            Donations Management
+          </CardTitle>
+          <CardDescription>
+            Comprehensive donation tracking and management system
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <p className="text-center text-muted-foreground">
+            Donations management features coming soon. This will include donation tracking, 
+            donor management, and financial reporting capabilities.
+          </p>
+        </CardContent>
+      </Card>
+    </div>
+  );
+};
+
+export default AdminDonations;

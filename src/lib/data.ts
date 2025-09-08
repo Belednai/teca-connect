@@ -20,6 +20,8 @@ export interface Activity {
   startDate: string;
   endDate?: string;
   budget?: number;
+  type: 'infrastructure' | 'education' | 'healthcare' | 'water' | 'community' | 'economic';
+  attachments?: string[];
 }
 
 export interface Leader {
@@ -74,6 +76,17 @@ export interface Pledge {
   payamId?: string;
   message?: string;
   status: 'pending' | 'fulfilled' | 'cancelled';
+  createdAt: string;
+}
+
+export interface Media {
+  id: string;
+  title: string;
+  url: string;
+  type: 'image' | 'video' | 'document';
+  payamId?: string;
+  tags: string[];
+  description?: string;
   createdAt: string;
 }
 
@@ -150,7 +163,8 @@ export const activities: Activity[] = [
     status: 'ongoing',
     startDate: '2024-01-15',
     endDate: '2024-06-30',
-    budget: 25000
+    budget: 25000,
+    type: 'water'
   },
   {
     id: '2',
@@ -160,7 +174,8 @@ export const activities: Activity[] = [
     status: 'planned',
     startDate: '2024-03-01',
     endDate: '2024-12-31',
-    budget: 45000
+    budget: 45000,
+    type: 'education'
   },
   {
     id: '3',
@@ -170,38 +185,144 @@ export const activities: Activity[] = [
     status: 'completed',
     startDate: '2023-08-01',
     endDate: '2023-12-15',
-    budget: 20000
+    budget: 20000,
+    type: 'community'
+  },
+  {
+    id: '4',
+    title: 'Health Clinic Establishment',
+    payamId: '4',
+    description: 'Setting up a basic health clinic with medical supplies and trained staff for Nyuak.',
+    status: 'ongoing',
+    startDate: '2024-02-01',
+    endDate: '2024-08-31',
+    budget: 35000,
+    type: 'healthcare'
+  },
+  {
+    id: '5',
+    title: 'Road Infrastructure Development',
+    payamId: '5',
+    description: 'Building 15km of all-weather roads connecting Pakeer to main transportation routes.',
+    status: 'planned',
+    startDate: '2024-04-01',
+    endDate: '2024-11-30',
+    budget: 60000,
+    type: 'infrastructure'
+  },
+  {
+    id: '6',
+    title: 'Youth Skills Training Center',
+    payamId: '6',
+    description: 'Vocational training center offering carpentry, tailoring, and agriculture skills.',
+    status: 'ongoing',
+    startDate: '2024-01-20',
+    endDate: '2024-09-30',
+    budget: 28000,
+    type: 'economic'
+  },
+  {
+    id: '7',
+    title: 'Water Well Construction - Phase 2',
+    payamId: '1',
+    description: 'Additional 3 water wells to extend coverage to remote areas of Ajuong.',
+    status: 'planned',
+    startDate: '2024-07-01',
+    endDate: '2024-12-31',
+    budget: 18000,
+    type: 'water'
+  },
+  {
+    id: '8',
+    title: 'Market Infrastructure',
+    payamId: '5',
+    description: 'Construction of covered market stalls and storage facilities.',
+    status: 'planned',
+    startDate: '2024-05-15',
+    endDate: '2024-10-31',
+    budget: 22000,
+    type: 'economic'
   }
 ];
 
 export const leaders: Leader[] = [
+  // Association Leadership
   {
     id: '1',
-    name: 'John Deng Majok',
-    title: 'Chairman',
-    bio: 'John has been leading TECA with dedication to community development and transparency since 2020.',
+    name: 'Lt. Gen. Biar Mading Biar',
+    title: 'Chairperson',
+    bio: 'Lt. Gen. Biar Mading Biar serves as the Chairperson of TECA, bringing extensive leadership experience and dedication to community development and transparency. His military background provides strong organizational skills and commitment to serving the Twic East community.',
     group: 'association'
   },
   {
     id: '2',
-    name: 'Mary Nyandeng Akot',
-    title: 'Secretary General',
-    bio: 'Mary coordinates all administrative functions and community outreach programs.',
+    name: 'Gen. Philip Aguer Panyang',
+    title: 'Secretary',
+    bio: 'Gen. Philip Aguer Panyang serves as Secretary of TECA, coordinating administrative functions and community outreach programs. His leadership experience and commitment to community service make him an invaluable member of the leadership team.',
     group: 'association'
   },
   {
     id: '3',
-    name: 'Peter Malual Deng',
-    title: 'Treasurer',
-    bio: 'Peter oversees all financial operations and ensures transparent fund management.',
+    name: 'Deng Abraham Akech',
+    title: 'Legal Advisor',
+    bio: 'Deng Abraham Akech serves as Legal Advisor to TECA, providing essential legal guidance and ensuring compliance with regulations. His expertise in legal matters helps TECA navigate complex issues while maintaining transparency and accountability.',
     group: 'association'
   },
   {
     id: '4',
     name: 'Grace Aluel Garang',
     title: 'Resettlement Coordinator',
-    bio: 'Grace leads the overall resettlement strategy and coordination across all payams.',
+    bio: 'Grace leads the overall resettlement strategy and coordination across all payams. She has extensive experience in humanitarian work and community development.',
     group: 'resettlement'
+  },
+  // Payam-specific Resettlement Leaders
+  {
+    id: '5',
+    name: 'Abraham Mayom Deng',
+    title: 'Ajuong Payam Coordinator',
+    bio: 'Abraham leads resettlement efforts in Ajuong, focusing on water infrastructure and agricultural development.',
+    group: 'resettlement',
+    payamId: '1'
+  },
+  {
+    id: '6',
+    name: 'Rebecca Ayen Majok',
+    title: 'Kongor Payam Coordinator',
+    bio: 'Rebecca oversees education and healthcare initiatives in Kongor Payam.',
+    group: 'resettlement',
+    payamId: '2'
+  },
+  {
+    id: '7',
+    name: 'Daniel Mabior Garang',
+    title: 'Lith Payam Coordinator',
+    bio: 'Daniel coordinates community center development and local governance structures in Lith.',
+    group: 'resettlement',
+    payamId: '3'
+  },
+  {
+    id: '8',
+    name: 'Sarah Nyankiir Deng',
+    title: 'Nyuak Payam Coordinator',
+    bio: 'Sarah leads comprehensive infrastructure and economic development projects in Nyuak.',
+    group: 'resettlement',
+    payamId: '4'
+  },
+  {
+    id: '9',
+    name: 'James Manyok Akot',
+    title: 'Pakeer Payam Coordinator',
+    bio: 'James focuses on road infrastructure and market development in Pakeer Payam.',
+    group: 'resettlement',
+    payamId: '5'
+  },
+  {
+    id: '10',
+    name: 'Elizabeth Nyandeng Majok',
+    title: 'Pawuoi Payam Coordinator',
+    bio: 'Elizabeth leads youth programs and skills development initiatives in Pawuoi.',
+    group: 'resettlement',
+    payamId: '6'
   }
 ];
 
@@ -233,6 +354,53 @@ These wells, strategically located across the payam, now provide clean and relia
 The project was completed on schedule and within budget, demonstrating TECA's commitment to efficient and effective project implementation.`,
     publishedAt: '2024-02-20',
     tags: ['water', 'ajuong', 'infrastructure', 'health']
+  },
+  {
+    id: '3',
+    title: 'Community Leaders Meet to Plan 2024 Development Goals',
+    slug: 'community-leaders-meet-plan-2024-development-goals',
+    excerpt: 'Representatives from all six payams gather to set priorities and coordinate efforts.',
+    content: `Community leaders from all six payams under TECA's resettlement program convened in Juba last week for a comprehensive planning session to establish development priorities for 2024.
+
+The three-day meeting brought together payam coordinators, traditional leaders, and TECA executives to discuss ongoing projects, identify challenges, and set ambitious but achievable goals for the coming year.
+
+Key outcomes include prioritizing education infrastructure in Kongor and Pawuoi, expanding healthcare services in Nyuak, and accelerating road development in Pakeer.
+
+"Unity in planning ensures efficiency in implementation," noted Grace Aluel Garang, TECA's Resettlement Coordinator.`,
+    publishedAt: '2024-02-28',
+    tags: ['leadership', 'planning', 'community', 'development']
+  },
+  {
+    id: '4',
+    title: 'Youth Skills Training Program Shows Promising Results',
+    slug: 'youth-skills-training-program-promising-results',
+    excerpt: 'First cohort of 50 young people complete vocational training in Pawuoi.',
+    content: `The inaugural cohort of TECA's Youth Skills Training Program in Pawuoi Payam has successfully completed their three-month intensive program, with 50 young people now equipped with marketable skills in carpentry, tailoring, and modern agriculture techniques.
+
+The program, led by coordinator Elizabeth Nyandeng Majok, has exceeded expectations with a 95% completion rate and early indicators showing strong employment prospects for graduates.
+
+"These young people are not just learning skills, they're becoming the foundation of our economic recovery," said Elizabeth. "Several have already started their own small businesses."
+
+The success has prompted plans to expand the program to other payams, with Kongor and Nyuak identified as the next locations.`,
+    publishedAt: '2024-03-05',
+    tags: ['youth', 'education', 'economic', 'pawuoi', 'skills']
+  },
+  {
+    id: '5',
+    title: 'Transparency Report: Q1 2024 Financial Update',
+    slug: 'transparency-report-q1-2024-financial-update',
+    excerpt: 'Detailed breakdown of funds raised and spent across all payam projects.',
+    content: `In line with TECA's commitment to transparency, we present our comprehensive Q1 2024 financial report, detailing all donations received and expenditures across our six-payam resettlement program.
+
+Total funds raised in Q1: $87,450
+Total funds disbursed: $72,300
+Administrative costs: 8.5% (well below our 12% target)
+
+Largest expenditures included water well construction in Ajuong ($25,000), health clinic supplies for Nyuak ($18,500), and youth training program materials in Pawuoi ($12,800).
+
+All receipts and documentation are available for public review at our Juba office. We remain committed to the highest standards of financial accountability.`,
+    publishedAt: '2024-04-01',
+    tags: ['transparency', 'finance', 'accountability', 'report']
   }
 ];
 
@@ -253,6 +421,25 @@ export const events: Event[] = [
     description: 'An elegant evening of dining, entertainment, and community support for resettlement efforts.',
     startDate: '2024-04-20',
     location: 'Pyramid Hotel, Juba',
+    rsvpEnabled: true
+  },
+  {
+    id: '3',
+    title: 'Payam Coordinators Workshop',
+    slug: 'payam-coordinators-workshop',
+    description: 'Training workshop for all payam coordinators on project management and community engagement.',
+    startDate: '2024-05-10',
+    endDate: '2024-05-12',
+    location: 'TECA Training Center, Juba',
+    rsvpEnabled: false
+  },
+  {
+    id: '4',
+    title: 'Youth Skills Fair and Competition',
+    slug: 'youth-skills-fair-competition',
+    description: 'Showcase of skills learned in our training programs with competitions and prizes.',
+    startDate: '2024-06-01',
+    location: 'Pawuoi Community Center',
     rsvpEnabled: true
   }
 ];
@@ -310,6 +497,77 @@ export const pledges: Pledge[] = [
     message: 'For road infrastructure in Pakeer',
     status: 'pending',
     createdAt: '2024-02-05'
+  },
+  {
+    id: '3',
+    donorName: 'South Sudan Women\'s Association',
+    amount: 12000,
+    payamId: '2',
+    message: 'Supporting education for girls in Kongor',
+    status: 'fulfilled',
+    createdAt: '2024-02-15'
+  }
+];
+
+export const media: Media[] = [
+  {
+    id: '1',
+    title: 'Water Well Construction Progress in Ajuong',
+    url: '/media/ajuong-water-well-construction.jpg',
+    type: 'image',
+    payamId: '1',
+    tags: ['water', 'infrastructure', 'progress'],
+    description: 'Workers installing the pump system for the third water well in Ajuong Payam.',
+    createdAt: '2024-02-15'
+  },
+  {
+    id: '2',
+    title: 'Community Assembly 2024 Highlights',
+    url: '/media/community-assembly-2024.mp4',
+    type: 'video',
+    tags: ['community', 'assembly', 'leadership'],
+    description: 'Key moments from our annual community assembly including leadership speeches and community feedback.',
+    createdAt: '2024-03-16'
+  },
+  {
+    id: '3',
+    title: 'Youth Training Program Graduation',
+    url: '/media/youth-graduation-pawuoi.jpg',
+    type: 'image',
+    payamId: '6',
+    tags: ['youth', 'education', 'graduation'],
+    description: 'Proud graduates of the first Youth Skills Training Program cohort in Pawuoi.',
+    createdAt: '2024-03-08'
+  },
+  {
+    id: '4',
+    title: 'Kongor School Construction Plans',
+    url: '/media/kongor-school-blueprints.pdf',
+    type: 'document',
+    payamId: '2',
+    tags: ['education', 'planning', 'infrastructure'],
+    description: 'Architectural plans for the new 6-classroom primary school in Kongor.',
+    createdAt: '2024-02-28'
+  },
+  {
+    id: '5',
+    title: 'Health Clinic Opening in Nyuak',
+    url: '/media/nyuak-health-clinic-opening.jpg',
+    type: 'image',
+    payamId: '4',
+    tags: ['healthcare', 'infrastructure', 'community'],
+    description: 'Community celebration for the opening of Nyuak\'s first modern health clinic.',
+    createdAt: '2024-03-20'
+  },
+  {
+    id: '6',
+    title: 'Road Construction Progress in Pakeer',
+    url: '/media/pakeer-road-construction.jpg',
+    type: 'image',
+    payamId: '5',
+    tags: ['infrastructure', 'roads', 'progress'],
+    description: 'Heavy machinery working on the main access road to Pakeer Payam.',
+    createdAt: '2024-03-25'
   }
 ];
 
@@ -337,4 +595,28 @@ export const getPayamProgress = (payamId: string) => {
     .reduce((sum, d) => sum + d.amount, 0);
   
   return payam.requestedAmount > 0 ? Math.round((payamDonations / payam.requestedAmount) * 100) : 0;
+};
+
+export const getPayamActivities = (payamId: string) => {
+  return activities.filter(a => a.payamId === payamId);
+};
+
+export const getPayamLeadership = (payamId: string) => {
+  return leaders.filter(l => l.payamId === payamId);
+};
+
+export const getAssociationLeadership = () => {
+  return leaders.filter(l => l.group === 'association');
+};
+
+export const getResettlementLeadership = () => {
+  return leaders.filter(l => l.group === 'resettlement');
+};
+
+export const getMediaByPayam = (payamId: string) => {
+  return media.filter(m => m.payamId === payamId);
+};
+
+export const getMediaByType = (type: 'image' | 'video' | 'document') => {
+  return media.filter(m => m.type === type);
 };

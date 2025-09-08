@@ -160,4 +160,19 @@
   .transition-bounce {
     transition: var(--transition-bounce);
   }
+
+  /* Hero background with image */
+  .hero-bg {
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  /* Responsive hero background */
+  @media (max-width: 768px) {
+    .hero-bg {
+      background-attachment: scroll;
+    }
+  }
 }

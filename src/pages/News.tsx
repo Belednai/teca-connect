@@ -87,9 +87,13 @@ const News = () => {
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {filteredNews.map((item) => (
                   <Card key={item.id} className="group shadow-card hover:shadow-elegant transition-smooth">
-                    {item.coverImage && (
-                      <div className="aspect-video bg-primary/5 rounded-t-lg"></div>
-                    )}
+                    <div className="aspect-video bg-primary/5 rounded-t-lg relative overflow-hidden">
+                      <img 
+                        src="/img/twicconf.jpg" 
+                        alt={item.title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
+                    </div>
                     
                     <CardHeader>
                       <div className="flex items-center justify-between mb-2">

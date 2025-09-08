@@ -54,10 +54,14 @@ const NewsDetail = () => {
           {/* Article */}
           <article className="max-w-4xl mx-auto">
             <Card className="shadow-card">
-              {/* Header image placeholder */}
-              {article.coverImage && (
-                <div className="aspect-video bg-gradient-primary rounded-t-lg"></div>
-              )}
+              {/* Header image */}
+              <div className="aspect-video bg-gradient-primary rounded-t-lg relative overflow-hidden">
+                <img 
+                  src="/img/twicconf.jpg" 
+                  alt={article.title}
+                  className="w-full h-full object-cover"
+                />
+              </div>
 
               <CardHeader className="space-y-6">
                 {/* Meta info */}

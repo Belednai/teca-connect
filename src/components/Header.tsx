@@ -2,7 +2,26 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Menu, X, Home, Users, Clock, Newspaper, Calendar, Heart, HandHeart, BarChart3, Activity, HelpingHand, Camera, Mail, Search } from "lucide-react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { 
+  faHouse, 
+  faPeopleGroup, 
+  faTimeline, 
+  faUserTie, 
+  faNewspaper, 
+  faCalendarDays, 
+  faHandHoldingHeart, 
+  faDonate, 
+  faScaleBalanced, 
+  faListCheck, 
+  faHandsHelping, 
+  faPhotoFilm, 
+  faEnvelope, 
+  faSearch,
+  faBars,
+  faTimes,
+  faUserShield
+} from "@fortawesome/free-solid-svg-icons";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -11,19 +30,19 @@ const Header = () => {
   const isActive = (path: string) => location.pathname === path;
 
   const navItems = [
-    { href: "/", label: "Home", icon: Home },
-    { href: "/about", label: "About", icon: Users },
-    { href: "/history", label: "History", icon: Clock },
-    { href: "/leadership", label: "Leadership", icon: Users },
-    { href: "/news", label: "News", icon: Newspaper },
-    { href: "/events", label: "Events", icon: Calendar },
-    { href: "/resettlement", label: "Resettlement", icon: Heart },
-    { href: "/fundraising", label: "Fundraising", icon: HandHeart },
-    { href: "/ledger", label: "Transparency", icon: BarChart3 },
-    { href: "/activities", label: "Activities", icon: Activity },
-    { href: "/volunteer", label: "Volunteer", icon: HelpingHand },
-    { href: "/media", label: "Media", icon: Camera },
-    { href: "/contact", label: "Contact", icon: Mail },
+    { href: "/", label: "Home", icon: faHouse },
+    { href: "/about", label: "About", icon: faPeopleGroup },
+    { href: "/history", label: "History", icon: faTimeline },
+    { href: "/leadership", label: "Leadership", icon: faUserTie },
+    { href: "/news", label: "News", icon: faNewspaper },
+    { href: "/events", label: "Events", icon: faCalendarDays },
+    { href: "/resettlement", label: "Resettlement", icon: faHandHoldingHeart },
+    { href: "/fundraising", label: "Fundraising", icon: faDonate },
+    { href: "/ledger", label: "Transparency", icon: faScaleBalanced },
+    { href: "/activities", label: "Activities", icon: faListCheck },
+    { href: "/volunteer", label: "Volunteer", icon: faHandsHelping },
+    { href: "/media", label: "Media", icon: faPhotoFilm },
+    { href: "/contact", label: "Contact", icon: faEnvelope },
   ];
 
   return (
@@ -75,7 +94,7 @@ const Header = () => {
                       isActive(item.href) ? "bg-accent text-accent-foreground" : ""
                     }`}
                   >
-                    <item.icon className="h-4 w-4 mr-2" />
+                    <FontAwesomeIcon icon={item.icon} className="h-4 w-4 mr-2" />
                     {item.label}
                   </Link>
                 ))}
@@ -83,11 +102,18 @@ const Header = () => {
             </div>
           </nav>
 
-          {/* Search and Mobile Menu */}
+          {/* Search, Admin Login and Mobile Menu */}
           <div className="flex items-center space-x-2">
             <Link to="/search">
               <Button variant="ghost" size="icon">
-                <Search className="h-4 w-4" />
+                <FontAwesomeIcon icon={faSearch} className="h-4 w-4" />
+              </Button>
+            </Link>
+            
+            {/* Admin Login Link */}
+            <Link to="/admin/login">
+              <Button variant="ghost" size="icon" title="Admin Login">
+                <FontAwesomeIcon icon={faUserShield} className="h-4 w-4" />
               </Button>
             </Link>
 
@@ -95,7 +121,7 @@ const Header = () => {
             <Sheet open={isOpen} onOpenChange={setIsOpen}>
               <SheetTrigger asChild className="lg:hidden">
                 <Button variant="ghost" size="icon">
-                  <Menu className="h-5 w-5" />
+                  <FontAwesomeIcon icon={faBars} className="h-5 w-5" />
                 </Button>
               </SheetTrigger>
               <SheetContent side="right" className="w-80">
@@ -127,10 +153,20 @@ const Header = () => {
                           : "text-foreground hover:bg-accent hover:text-accent-foreground"
                       }`}
                     >
-                      <item.icon className="h-5 w-5 mr-3" />
+                      <FontAwesomeIcon icon={item.icon} className="h-5 w-5 mr-3" />
                       {item.label}
                     </Link>
                   ))}
+                  
+                  {/* Admin Login Link in Mobile Menu */}
+                  <Link
+                    to="/admin/login"
+                    onClick={() => setIsOpen(false)}
+                    className="flex items-center px-3 py-3 text-base font-medium rounded-md transition-smooth text-foreground hover:bg-accent hover:text-accent-foreground border-t border-border mt-4 pt-4"
+                  >
+                    <FontAwesomeIcon icon={faUserShield} className="h-5 w-5 mr-3" />
+                    Admin Login
+                  </Link>
                 </nav>
               </SheetContent>
             </Sheet>
