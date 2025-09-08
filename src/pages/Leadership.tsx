@@ -66,6 +66,24 @@ const Leadership = () => {
             </Card>
           </div>
 
+          {/* Top 3 Leaders Spotlight */}
+          <div className="max-w-6xl mx-auto mb-16">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl md:text-4xl font-serif font-bold text-primary mb-4">
+                Executive Leadership
+              </h2>
+              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                Meet our top leadership team guiding TECA's strategic direction
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-8">
+              {associationLeaders.slice(0, 3).map((leader) => (
+                <LeaderCard key={leader.id} leader={leader} />
+              ))}
+            </div>
+          </div>
+
           {/* Leadership Tabs */}
           <div className="max-w-6xl mx-auto">
             <Tabs defaultValue="association" className="w-full">

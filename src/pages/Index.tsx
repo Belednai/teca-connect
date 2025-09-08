@@ -3,9 +3,10 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Link } from "react-router-dom";
 import { ArrowRight, Users, Target, TrendingUp, Calendar, Newspaper, Heart, HandHeart } from "lucide-react";
-import { payams, news, events, getTotalRaised, getTotalRequested, getProgressPercentage } from "@/lib/data";
+import { payams, news, events, leaders, getTotalRaised, getTotalRequested, getProgressPercentage } from "@/lib/data";
 
 const Index = () => {
   const totalRaised = getTotalRaised();
@@ -386,7 +387,7 @@ const Index = () => {
       </section>
 
       {/* Leadership Spotlight */}
-      <section className="py-16 bg-primary-light/30">
+      <section className="py-20 bg-gradient-to-br from-primary/5 via-primary-light/20 to-primary/10">
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-12">
@@ -398,6 +399,78 @@ const Index = () => {
               </p>
             </div>
 
+            {/* Top 3 Leaders - Enhanced */}
+            <div className="mb-12">
+              <div className="text-center mb-8">
+                <h3 className="text-2xl font-serif font-bold text-primary mb-2">
+                Executive Leadership
+              </h3>
+                <p className="text-muted-foreground">
+                  Our top leadership team guiding TECA's strategic direction
+                </p>
+                <div className="mt-4 text-sm text-muted-foreground">
+                  {leaders.filter(leader => leader.group === 'association').length} association leaders found
+                </div>
+              </div>
+              <div className="grid md:grid-cols-3 gap-8 mb-8">
+                {(() => {
+                  const associationLeaders = leaders.filter(leader => leader.group === 'association');
+                  const topLeaders = associationLeaders.slice(0, 3);
+                  console.log('Association leaders:', associationLeaders);
+                  console.log('Top 3 leaders:', topLeaders);
+                  
+                  if (topLeaders.length === 0) {
+                    return (
+                      <div className="col-span-full text-center py-8">
+                        <p className="text-muted-foreground">No association leaders found.</p>
+            </div>
+                    );
+                  }
+                  
+                  return topLeaders.map((leader) => {
+                const getInitials = (name: string) => {
+                  return name.split(' ').map(n => n[0]).join('').toUpperCase();
+                };
+
+                return (
+                    <Card key={leader.id} className="shadow-card hover:shadow-elegant transition-smooth group">
+                      <CardHeader className="text-center pb-4">
+                        <Avatar className="h-24 w-24 mx-auto mb-4 ring-4 ring-primary/10 group-hover:ring-primary/20 transition-all">
+                        <AvatarImage src={leader.photo} alt={leader.name} />
+                          <AvatarFallback className="text-xl font-semibold bg-primary/10 text-primary">
+                          {getInitials(leader.name)}
+                        </AvatarFallback>
+                      </Avatar>
+                        <CardTitle className="font-serif text-xl text-primary mb-2">
+                        {leader.name}
+                      </CardTitle>
+                        <Badge variant="secondary" className="w-fit mx-auto bg-primary/10 text-primary font-medium">
+                        {leader.title}
+                      </Badge>
+                    </CardHeader>
+                      <CardContent className="pt-0">
+                      <p className="text-muted-foreground text-sm leading-relaxed text-center">
+                        {leader.bio}
+                      </p>
+                    </CardContent>
+                  </Card>
+                );
+                });
+                })()}
+              </div>
+              
+              {/* Call to action for full leadership page */}
+              <div className="text-center">
+                <Button variant="outline" size="lg" asChild className="border-primary/20 text-primary hover:bg-primary hover:text-primary-foreground">
+                  <Link to="/leadership">
+                    Meet All Our Leaders
+                    <ArrowRight className="ml-2 h-5 w-5" />
+                  </Link>
+                </Button>
+              </div>
+            </div>
+
+            {/* Leadership Principles */}
             <div className="grid md:grid-cols-3 gap-8 mb-12">
               <Card className="shadow-card hover:shadow-elegant transition-smooth">
                 <CardHeader className="text-center">
@@ -476,6 +549,15 @@ const Index = () => {
                   </Button>
                 </CardContent>
               </Card>
+            </div>
+
+            <div className="text-center">
+              <Button size="lg" asChild>
+                <Link to="/leadership">
+                  Meet All Our Leaders
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </Link>
+              </Button>
             </div>
           </div>
         </div>

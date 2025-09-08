@@ -17,11 +17,11 @@ import {
   faHandsHelping, 
   faPhotoFilm, 
   faEnvelope, 
-  faSearch,
   faBars,
   faTimes,
   faUserShield
 } from "@fortawesome/free-solid-svg-icons";
+import SearchBar from "./SearchBar";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -54,11 +54,11 @@ const Header = () => {
             <div className="h-10 w-10 rounded-full bg-gradient-primary flex items-center justify-center text-white font-bold">
               T
             </div>
-            <div className="hidden sm:block">
-              <div className="font-serif font-bold text-xl text-primary">
-                TECA
+            <div className="block">
+              <div className="font-serif font-bold text-lg sm:text-xl text-primary">
+                TECA - Juba
               </div>
-              <div className="text-xs text-muted-foreground -mt-1">
+              <div className="text-xs text-muted-foreground -mt-1 hidden sm:block">
                 Twic East Community Association
               </div>
             </div>
@@ -104,11 +104,7 @@ const Header = () => {
 
           {/* Search, Admin Login and Mobile Menu */}
           <div className="flex items-center space-x-2">
-            <Link to="/search">
-              <Button variant="ghost" size="icon">
-                <FontAwesomeIcon icon={faSearch} className="h-4 w-4" />
-              </Button>
-            </Link>
+            <SearchBar />
             
             {/* Admin Login Link */}
             <Link to="/admin/login">
@@ -132,10 +128,10 @@ const Header = () => {
                     </div>
                     <div>
                       <div className="font-serif font-bold text-lg text-primary">
-                        TECA
+                        TECA - Juba
                       </div>
                       <div className="text-xs text-muted-foreground -mt-1">
-                        Community Association
+                        Twic East Community Association
                       </div>
                     </div>
                   </div>
